@@ -1,0 +1,64 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8">
+    <title>학교 시간표/급식 정보 확인</title>
+    <script>
+        const Timetable = require('comcigan-parser');
+        //import Timetable from "./index";
+
+        const timetable = new Timetable();
+
+        const test = async () => {
+            await timetable.init();
+            const school = await timetable.search('인천남고등학교');
+            timetable.setSchool(school[0].code);
+
+            // 전교 시간표 정보 조회
+            const result = await timetable.getTimetable();
+            console.log(result);
+            console.log(result[2][2][2][1])
+        };
+    </script>
+</head>
+<body>
+    <meta charset="UTF-8">
+    <table>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Mon</th>
+            <th scope="col">Tue</th>
+            <th scope="col">Wen</th>
+            <th scope="col">Thu</th>
+            <th scope="col">Fri</th>
+        </tr>
+        <tr>
+            <td>1교시</td>
+            <td>
+                <form class="container" action="/memo" method="post">
+                    <button type="submit" class="btn btn-primary">문학</button>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>2교시</td>
+        </tr>
+        <tr>
+            <td>3교시</td>
+        </tr>
+        <tr>
+            <td>4교시</td>
+        </tr>
+        <tr>
+            <td>점심시간</td>
+        </tr>
+        <tr>
+            <td>5교시</td>
+        </tr>
+        <tr>
+            <td>6교시</td>
+        </tr>
+        <tr>
+            <td>7교시</td>
+        </tr>
+    </table>
+</body>
