@@ -12,19 +12,13 @@ import java.util.Arrays;
 
 public class MealCrawler {
 
-    public static String[] getMeals(){
+    public static String[][] getMeals(){
         LocalDate now = LocalDate.now();
 
-        /*
+
         int year = now.getYear();
         int month = now.getMonthValue();
         int date = now.getDayOfMonth();
-        Element weekElement = getWeekTableElement(year,month,date);
-        */
-
-        int year = 2024;
-        int month = 5;
-        int date = 2;
         Element weekElement = getWeekTableElement(year,month,date);
 
         assert weekElement != null;
@@ -32,7 +26,7 @@ public class MealCrawler {
         Element lastWeekElement = null;
         Element nextWeekElement = null;
 
-        String[] meals = new String[5];
+        String[][] meals = new String[5][];
         boolean isEmptyDateFirst = false;
         for (int i = 0; i < 5; i++) {
             Element dateElement = weekElement.child(i + 1);
@@ -71,7 +65,16 @@ public class MealCrawler {
                 dateElement = nextWeekElement.child(i+1);
             }
 
-            String meal = dateElement.child(0).child(0).ownText();
+            String mealHtml = dateElement.child(0).child(0).html();
+            String[] meal = mealHtml.split("<br>");
+
+            for (String s : meal) {
+                if(s.isBlank()) {
+                    meal = Arrays.copyOfRange(meal,0,meal.length - 1);
+                    break;
+                }
+            }
+
             meals[i] = meal;
         }
 

@@ -32,28 +32,28 @@
                 <tbody>
                 <tr>
                     {{#period1}}
-                    <td>{{name}}<br /><span>{{memo}}</span></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period1}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period2}}
-                        <td>{{name}}<br /><span>{{memo}}</span></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period2}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period3}}
-                        <td>{{name}}<br /><span>{{memo}}</span></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period3}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period4}}
-                        <td>{{name}}<br /><span>{{memo}}</span></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period4}}
                 </tr>
                 </tbody>
@@ -65,28 +65,32 @@
                 <tbody>
                 <tr>
                     {{#period5}}
-                        <td>{{name}}<br /><span>{{memo}}</span></td>
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period5}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period6}}
-                        <td>{{name}}<br /><span>{{memo}}</span></td>
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period6}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period7}}
-                        <td>{{name}}<br /><span>{{memo}}</span></td>
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period7}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period8}}
-                        <td>{{name}}<br /><span>{{memo}}</span></td>
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period8}}
                 </tr>
                 </tbody>
@@ -98,30 +102,51 @@
             <div class="title">급식</div>
         </div>
         <div class="body">
-            <div class="title">월</div>
-            <input type="checkbox" hidden id="bf">
-            <label class="box" for="bf">
-                <div class="header">
-                    <div class="title">조식</div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="24px"><path d="M152-160q-23 0-35-20.5t1-40.5l328-525q12-19 34-19t34 19l328 525q13 20 1 40.5T808-160H152Z"/></svg>
-                </div>
+            {{#meals}}
+            <div class="title">{{weekName}}</div>
+            <label class="box">
+                {{#meal}}
+                    {{content}}<br>
+                {{/meal}}
             </label>
-            <input type="checkbox" hidden id="lc">
-            <label class="box" for="lc">
-                <div class="header">
-                    <div class="title">중식</div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="24px"><path d="M152-160q-23 0-35-20.5t1-40.5l328-525q12-19 34-19t34 19l328 525q13 20 1 40.5T808-160H152Z"/></svg>
-                </div>
-            </label>
-            <input type="checkbox" hidden id="dn">
-            <label class="box" for="dn">
-                <div class="header">
-                    <div class="title">석식</div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="24px"><path d="M152-160q-23 0-35-20.5t1-40.5l328-525q12-19 34-19t34 19l328 525q13 20 1 40.5T808-160H152Z"/></svg>
-                </div>
-            </label>
+            {{/meals}}
         </div>
     </div>
 </main>
+<script>
+    let memoActive = false;
+    [...document.getElementsByClassName("memo")].map((m)=>{
+        m.addEventListener("change", ()=>{
+            //alert(m.childNodes[3].childNodes[0].value); //여기다가 메모 저장 코드 넣으세요!;
+            const data = {
+                "memoText": m.childNodes[3].childNodes[0].value,
+                "idText": m.childNodes[4].innerText
+            };
+
+            fetch("/memo", {
+                method: 'POST', // HTTP 메서드를 POST로 설정
+                headers: {
+                    'Content-Type': 'application/json', // 요청 헤더에 Content-Type을 설정
+                },
+                body: JSON.stringify(data), // 데이터를 JSON 문자열로 변환하여 본문에 포함
+            })
+                    .catch(error => {
+                        console.error('Error:', error); // 에러 시 에러 처리
+                    });
+        })
+        m.addEventListener("click", ()=>{
+            if(memoActive){
+                [...document.getElementsByClassName("memo")].map((m)=>{m.childNodes[2].checked = false;})
+                m.childNodes[2].checked = true;
+                m.childNodes[3].childNodes[0].focus();
+                memoActive = false;
+            }else{
+                memoActive = true;
+                m.childNodes[3].childNodes[0].blur();
+                m.childNodes[2].checked = false
+            }
+        })
+    })
+</script>
 </body>
 </html>
