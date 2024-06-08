@@ -32,28 +32,28 @@
                 <tbody>
                 <tr>
                     {{#period1}}
-                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period1}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period2}}
-                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period2}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period3}}
-                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period3}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period4}}
-                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
+                        <td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>
                     {{/period4}}
                 </tr>
                 </tbody>
@@ -65,32 +65,32 @@
                 <tbody>
                 <tr>
                     {{#period5}}
-                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
-                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period5}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period6}}
-                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
-                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo">X<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period6}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period7}}
-                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
-                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo">X<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period7}}
                 </tr>
                 </tbody>
                 <tbody>
                 <tr>
                     {{#period8}}
-                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
-                        {{^name}}<td class="memo"><br /><input type="checkbox" id="bool" hidden><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{#name}}<td class="memo">{{name}}<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
+                        {{^name}}<td class="memo">X<br /><input type="checkbox" id="bool" hidden checked><span><textarea>{{memo}}</textarea></span><p hidden>{{idText}}</p></td>{{/name}}
                     {{/period8}}
                 </tr>
                 </tbody>
@@ -114,7 +114,6 @@
     </div>
 </main>
 <script>
-    let memoActive = false;
     [...document.getElementsByClassName("memo")].map((m)=>{
         m.addEventListener("change", ()=>{
             //alert(m.childNodes[3].childNodes[0].value); //여기다가 메모 저장 코드 넣으세요!;
@@ -133,18 +132,6 @@
                     .catch(error => {
                         console.error('Error:', error); // 에러 시 에러 처리
                     });
-        })
-        m.addEventListener("click", ()=>{
-            if(memoActive){
-                [...document.getElementsByClassName("memo")].map((m)=>{m.childNodes[2].checked = false;})
-                m.childNodes[2].checked = true;
-                m.childNodes[3].childNodes[0].focus();
-                memoActive = false;
-            }else{
-                memoActive = true;
-                m.childNodes[3].childNodes[0].blur();
-                m.childNodes[2].checked = false
-            }
         })
     })
 </script>

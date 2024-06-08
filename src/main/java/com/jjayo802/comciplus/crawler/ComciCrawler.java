@@ -1,6 +1,8 @@
 package com.jjayo802.comciplus.crawler;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.jjayo802.comciplus.entity.TimeTable;
+import com.jjayo802.comciplus.repository.TimeTableRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,20 +16,20 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 
 public class ComciCrawler {
-    public static String[][] getTimeTables(){
+    public static void saveTimeTablesToDB(TimeTableRepository repository){
         LocalDate now = LocalDate.now();
         String url = getAPIUrl(now);
         System.out.println(url);
 
         Connection connection = Jsoup.connect(url);
-        Document document = null;
+        Document document;
         try {
             document = connection.get();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        if(document == null) return null;
+        if(document == null) return;
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
@@ -41,7 +43,7 @@ public class ComciCrawler {
         JSONObject row = (JSONObject) array.get(1);
         JSONArray timeTables = (JSONArray) row.get("row");
 
-        String[][] result = new String[8][5];
+        //String[][] result = new String[8][5];
 
         for (Object timeTable : timeTables) {
             JSONObject timeTableJson = (JSONObject) timeTable;
@@ -57,10 +59,14 @@ public class ComciCrawler {
 
             if(tableDayOfWeek == 6) continue;
 
-            result[period-1][tableDayOfWeek-1] = (String) timeTableJson.get("ITRT_CNTNT");
-        }
+            String name = (String) timeTableJson.get("ITRT_CNTNT");
+            String tableYmd = String.format("%d%02d%02d",tableYear,tableMonth,tableDate);
 
-        return result;
+            TimeTable timeTableEntity = new TimeTable(null,name,"",tableYmd,period);
+            repository.save(timeTableEntity);
+
+            //result[period-1][tableDayOfWeek-1] = (String) timeTableJson.get("ITRT_CNTNT");
+        }
     }
 
     private static String getAPIUrl(LocalDate now) {

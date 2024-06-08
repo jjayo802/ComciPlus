@@ -1,16 +1,14 @@
 package com.jjayo802.comciplus.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity
 @Getter
+@Setter
 @Table(name = "timetables")
 public class TimeTable {
 

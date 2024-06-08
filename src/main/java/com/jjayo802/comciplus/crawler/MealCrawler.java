@@ -1,5 +1,7 @@
 package com.jjayo802.comciplus.crawler;
 
+import com.jjayo802.comciplus.entity.Meal;
+import com.jjayo802.comciplus.repository.MealRepository;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,9 +14,8 @@ import java.util.Arrays;
 
 public class MealCrawler {
 
-    public static String[][] getMeals(){
+    public static void saveMealsToDB(MealRepository repository, LocalDate startDate){
         LocalDate now = LocalDate.now();
-
 
         int year = now.getYear();
         int month = now.getMonthValue();
@@ -75,10 +76,16 @@ public class MealCrawler {
                 }
             }
 
+            LocalDate today = startDate.plusDays(i);
+            String ymd = String.format("%d%02d%02d",today.getYear(),today.getMonthValue(),today.getDayOfMonth());
+
+            Meal mealEntity = new Meal(null,ymd,mealHtml);
+            repository.save(mealEntity);
+
             meals[i] = meal;
         }
 
-        return meals;
+        //return meals;
     }
 
     private static Element getWeekTableElement(int year, int month, int date){

@@ -12,4 +12,7 @@ public interface TimeTableRepository extends JpaRepository<TimeTable, Long> {
     @Query("SELECT t FROM TimeTable t WHERE t.ymd = :ymd")
     List<TimeTable> findTableWithYMD(@Param("ymd") String ymd);
 
+    @Query("SELECT t FROM TimeTable t WHERE t.ymd = :ymd AND t.period = :period")
+    List<TimeTable> findTableWithYMDAndPeriod(@Param("ymd") String ymd, @Param("period") int period);
+
 }

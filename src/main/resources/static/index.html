@@ -25,7 +25,7 @@
                       </thead>
                       <tbody>
                           <tr>
-                            <td class="memo">문학<br /><input type="checkbox" id="bool" hidden><span><textarea></textarea></span></td>
+                            <td class="memo">문학<br /><input type="checkbox" id="bool" hidden><span><textarea></textarea><span style="display: block;">asd</span></span></td>
                             <td class="memo">1교시<br /><input type="checkbox" id="bool" hidden><span><textarea></textarea></span></td>
                             <td class="memo">1교시<br /><input type="checkbox" id="bool" hidden><span><textarea></textarea></span></td>
                             <td class="memo">1교시<br /><input type="checkbox" id="bool" hidden><span><textarea></textarea></span></td>
@@ -130,11 +130,14 @@
                 if(memoActive){
                     [...document.getElementsByClassName("memo")].map((m)=>{m.childNodes[2].checked = false;})
                     m.childNodes[2].checked = true;
+                    console.dir(m.childNodes[3].childNodes)
+                    m.childNodes[3].childNodes[1].style = 'display: none;';
                     m.childNodes[3].childNodes[0].focus();
                     memoActive = false;
                 }else{
                     memoActive = true;
                     m.childNodes[3].childNodes[0].blur();
+                    m.childNodes[3].childNodes[1].style = 'display: block;';
                     m.childNodes[2].checked = false
                 }
             })
