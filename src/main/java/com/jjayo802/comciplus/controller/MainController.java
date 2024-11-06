@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.view.RedirectView;
@@ -36,8 +37,8 @@ public class MainController {
     @Autowired
     MealRepository mealRepository;
 
-    @GetMapping("/main")
-    public String mainForm(Model model){
+    @GetMapping("/{cityId}/{schoolId}/{grade}/{classNm}")
+    public String mainForm(Model model, @PathVariable String cityId, @PathVariable String schoolId, @PathVariable int grade, @PathVariable int classNm){
         LocalDate now = LocalDate.now();
         int dayOfWeek = now.get(ChronoField.DAY_OF_WEEK);
         if(dayOfWeek == 7) dayOfWeek = 0;
@@ -53,7 +54,7 @@ public class MainController {
             List<Meal> todayMeal = mealRepository.findMealWithYMD(ymd);
 
             if(todayTable.isEmpty() || todayMeal.isEmpty()) {
-                ComciCrawler.saveTimeTablesToDB(timeTableRepository);
+                ComciCrawler.saveTimeTablesToDB(timeTableRepository, cityId, schoolId, grade, classNm);
                 MealCrawler.saveMealsToDB(mealRepository,start);
                 i--;
                 continue;

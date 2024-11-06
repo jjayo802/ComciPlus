@@ -16,9 +16,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 
 public class ComciCrawler {
-    public static void saveTimeTablesToDB(TimeTableRepository repository){
+    public static void saveTimeTablesToDB(TimeTableRepository repository, String cityId, String schoolId, int grade, int classNum){
         LocalDate now = LocalDate.now();
-        String url = getAPIUrl(now);
+        String url = getAPIUrl(now, cityId, schoolId, grade, classNum);
         System.out.println(url);
 
         Connection connection = Jsoup.connect(url);
@@ -48,6 +48,13 @@ public class ComciCrawler {
         for (Object timeTable : timeTables) {
             JSONObject timeTableJson = (JSONObject) timeTable;
 
+            //학교, 학년, 반 체크
+            String tableSchoolName = (String) timeTableJson.get("SCHUL_NM");
+            int tableGrade = Integer.parseInt((String)timeTableJson.get("GRADE"));
+            int tableClassNM = Integer.parseInt((String)timeTableJson.get("CLASS_NM"));
+            if(!tableSchoolName.equals(schoolName) || tableGrade != grade || tableClassNM != classNum)
+                return;
+
             int period = Integer.parseInt((String)timeTableJson.get("PERIO"));
             String ymd = (String) timeTableJson.get("ALL_TI_YMD");
 
@@ -69,7 +76,7 @@ public class ComciCrawler {
         }
     }
 
-    private static String getAPIUrl(LocalDate now) {
+    private static String getAPIUrl(LocalDate now, String cityId, String schoolId, int grade, int classNum) {
         int dayOfWeek = now.get(ChronoField.DAY_OF_WEEK);
         if(dayOfWeek == 7) dayOfWeek = 0;
         LocalDate start = now.minusDays(dayOfWeek);
@@ -87,10 +94,14 @@ public class ComciCrawler {
                 "https://open.neis.go.kr/hub/hisTimetable?" +
                         "KEY=f2d3193e82dc40b5876523737ac34ae0&" +
                         "Type=json&" +
-                        "ATPT_OFCDC_SC_CODE=E10&" +
-                        "SD_SCHUL_CODE=7310059&" +
-                        "GRADE=2&" +
-                        "CLRM_NM=2&" +
+                        //"ATPT_OFCDC_SC_CODE=E10&" +
+                        //"SD_SCHUL_CODE=7310059&" +
+                        //"GRADE=2&" +
+                        //"CLRM_NM=2&" +
+                        "ATPT_OFCDC_SC_CODE=" + cityId + "&" +
+                        "SD_SCHUL_CODE=" + schoolId + "&" +
+                        "GRADE=" + grade + "&" +
+                        "CLRM_NM=" + classNum + "&" +
                         String.format("TI_FROM_YMD=%d%02d%02d&",startY,startM,startD) +
                         String.format("TI_TO_YMD=%d%02d%02d",endY,endM,endD);
         return url;
