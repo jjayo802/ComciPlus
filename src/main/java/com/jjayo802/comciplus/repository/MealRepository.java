@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface MealRepository extends JpaRepository<Meal,Long> {
 
-    @Query("SELECT t FROM Meal t WHERE t.ymd = :ymd")
-    List<Meal> findMealWithYMD(@Param("ymd") String ymd);
+    @Query("SELECT t FROM Meal t WHERE t.ymd = :ymd AND t.schoolId = :schoolId")
+    List<Meal> findMealWithYMD(@Param("schoolId") String schoolId, @Param("ymd") String ymd);
 }

@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="./index.css">
     <title>짜요짜요</title>
 </head>
-<script>
-    function memo(){
-
-    }
-    window.addEventListener()
-</script>
 <body>
 <main>
     <div id="timetable">
@@ -116,21 +110,21 @@
 <script>
     [...document.getElementsByClassName("memo")].map((m)=>{
         m.addEventListener("change", ()=>{
-            //alert(m.childNodes[3].childNodes[0].value); //여기다가 메모 저장 코드 넣으세요!;
             const data = {
                 "memoText": m.childNodes[3].childNodes[0].value,
                 "idText": m.childNodes[4].innerText
             };
 
-            fetch("/memo", {
-                method: 'POST', // HTTP 메서드를 POST로 설정
+            const url = "/memo" + window.location.search;
+            fetch(url, {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // 요청 헤더에 Content-Type을 설정
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data), // 데이터를 JSON 문자열로 변환하여 본문에 포함
+                body: JSON.stringify(data),
             })
                     .catch(error => {
-                        console.error('Error:', error); // 에러 시 에러 처리
+                        console.error('Error:', error);
                     });
         })
     })

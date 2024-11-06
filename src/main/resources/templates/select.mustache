@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./select.css">
+    <title>학교 선택</title>
+</head>
+<body>
+<main>
+    <div id="selection">
+        <div class="header">
+            <div class="title">학교 선택</div>
+        </div>
+        <div class="body">
+            <div class="selection-box">
+                <label for="district">교육청:</label>
+                <select id="district">
+                    <option value="" disabled selected>교육청을 선택하세요</option>
+                    <option value="B10">서울특별시교육청</option>
+                    <option value="C10">부산광역시교육청</option>
+                    <option value="D10">대구광역시교육청</option>
+                    <option value="E10">인천광역시교육청</option>
+                    <option value="F10">광주광역시교육청</option>
+                    <option value="G10">대전광역시교육청</option>
+                    <option value="H10">울산광역시교육청</option>
+                    <option value="I10">세종특별자치시교육청</option>
+                    <option value="J10">경기도교육청</option>
+                    <option value="K10">강원도교육청</option>
+                    <option value="M10">충청북도교육청</option>
+                    <option value="N10">충청남도교육청</option>
+                    <option value="P10">전북특별자치도교육청</option>
+                    <option value="Q10">전라남도교육청</option>
+                    <option value="R10">경상북도교육청</option>
+                    <option value="S10">경상남도교육청</option>
+                    <option value="T10">제주특별자치도교육청</option>
+                </select>
+            </div>
+            <div class="selection-box">
+                <label for="school-search">학교 검색:</label>
+                <div class="search-wrapper">
+                    <input type="text" id="school-search" placeholder="학교를 검색하세요" disabled />
+                    <input type="hidden" id="school-result-id">
+                    <button id="search-button" disabled>검색</button>
+                </div>
+                <ul id="school-results" class="search-results" style="display: none;"></ul>
+            </div>
+            <div class="selection-box">
+                <label for="grade">학년:</label>
+                <select id="grade" disabled>
+                    <option value="" disabled selected>학년을 선택하세요</option>
+                    <option value="1">1학년</option>
+                    <option value="2">2학년</option>
+                    <option value="3">3학년</option>
+                </select>
+            </div>
+            <div class="selection-box">
+                <label for="class">반:</label>
+                <select id="class" disabled>
+                    <option value="" disabled selected>반을 선택하세요</option>
+                    {{#class}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/class}}
+                </select>
+            </div>
+            <button id="submit-button" disabled>확인</button>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="./select.js"></script>
+</body>
+</html>

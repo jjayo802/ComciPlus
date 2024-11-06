@@ -3,6 +3,7 @@ package com.jjayo802.comciplus.controller;
 import com.jjayo802.comciplus.DateUtils;
 import com.jjayo802.comciplus.crawler.ComciCrawler;
 import com.jjayo802.comciplus.crawler.MealCrawler;
+import com.jjayo802.comciplus.crawler.MealNeisCrawler;
 import com.jjayo802.comciplus.dto.MealDto;
 import com.jjayo802.comciplus.dto.MealDto2;
 import com.jjayo802.comciplus.dto.TimeTableDto;
@@ -17,10 +18,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
@@ -37,8 +35,8 @@ public class MainController {
     @Autowired
     MealRepository mealRepository;
 
-    @GetMapping("/{cityId}/{schoolId}/{grade}/{classNm}")
-    public String mainForm(Model model, @PathVariable String cityId, @PathVariable String schoolId, @PathVariable int grade, @PathVariable int classNm){
+    @GetMapping("/timetables")
+    public String mainForm(Model model, @RequestParam String districtId, @RequestParam String schoolId, @RequestParam int grade, @RequestParam String classNm){
         LocalDate now = LocalDate.now();
         int dayOfWeek = now.get(ChronoField.DAY_OF_WEEK);
         if(dayOfWeek == 7) dayOfWeek = 0;
@@ -50,12 +48,13 @@ public class MainController {
         for (int i = 0; i < 5; i++) {
             LocalDate today = start.plusDays(i);
             String ymd = String.format("%d%02d%02d",today.getYear(),today.getMonthValue(),today.getDayOfMonth());
-            List<TimeTable> todayTable = timeTableRepository.findTableWithYMD(ymd);
-            List<Meal> todayMeal = mealRepository.findMealWithYMD(ymd);
+            List<TimeTable> todayTable = timeTableRepository.findTableWithYMD(schoolId, grade, classNm, ymd);
+            List<Meal> todayMeal = mealRepository.findMealWithYMD(schoolId, ymd);
 
             if(todayTable.isEmpty() || todayMeal.isEmpty()) {
-                ComciCrawler.saveTimeTablesToDB(timeTableRepository, cityId, schoolId, grade, classNm);
-                MealCrawler.saveMealsToDB(mealRepository,start);
+                ComciCrawler.saveTimeTablesToDB(timeTableRepository, districtId, schoolId, grade, classNm);
+                //MealCrawler.saveMealsToDB(mealRepository,start);
+                MealNeisCrawler.saveMealsToDB(mealRepository, districtId, schoolId);
                 i--;
                 continue;
             }
@@ -117,7 +116,7 @@ public class MainController {
     }
 
     @PostMapping(value = "/memo")
-    public RedirectView memoForm(@RequestBody String data) throws ParseException {
+    public RedirectView memoForm(@RequestParam String schoolId, @RequestParam int grade, @RequestParam String classNm, @RequestBody String data) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONObject object = (JSONObject) parser.parse(data);
         String idText = (String) object.get("idText");
@@ -128,7 +127,7 @@ public class MainController {
 
         System.out.println(idText);
 
-        List<TimeTable> tables = timeTableRepository.findTableWithYMDAndPeriod(ymd,period);
+        List<TimeTable> tables = timeTableRepository.findTableWithYMDAndPeriod(schoolId, grade, classNm, ymd,period);
         TimeTable table = tables.get(0);
         table.setMemo(memo);
         timeTableRepository.save(table);

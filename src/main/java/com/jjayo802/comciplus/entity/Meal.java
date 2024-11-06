@@ -19,6 +19,9 @@ public class Meal {
     private Long id;
 
     @Column
+    private String schoolId;
+
+    @Column
     private String ymd;
 
     @Column

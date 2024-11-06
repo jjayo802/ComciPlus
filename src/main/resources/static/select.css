@@ -1,0 +1,145 @@
+/* 전체 배경 및 기본 스타일 */
+body {
+    background: #222222;
+    color: white;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#selection {
+    width: 400px;
+    background: #191919;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* 헤더 스타일 */
+.header {
+    padding: 20px;
+    text-align: center;
+}
+
+.header .title {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+/* 바디 스타일 */
+.body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.selection-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.selection-box label {
+    font-size: 14px;
+    color: #999999;
+}
+
+.selection-box select, .search-wrapper input {
+    padding: 10px;
+    background: #252525;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* 검색 버튼과 input 필드를 감싸는 래퍼 */
+.search-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+#search-button {
+    padding: 10px;
+    background-color: #4e4e4e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#search-button:hover {
+    background-color: #616161;
+}
+
+#search-button:disabled {
+    background-color: #333333;
+    cursor: not-allowed;
+}
+
+/* 검색 결과 스타일 */
+#school-results {
+    background-color: #252525;
+    border: 1px solid #4e4e4e;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: auto;
+    z-index: 1000;
+}
+
+#school-results li {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+#school-results li:hover {
+    background-color: #4e4e4e;
+}
+
+/* 비활성화된 상태 */
+input:disabled, select:disabled {
+    background: #333333;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+/* 확인 버튼 스타일 */
+#submit-button {
+    padding: 15px;
+    background-color: #4e4e4e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#submit-button:hover {
+    background-color: #616161;
+}
+
+#submit-button:disabled {
+    background-color: #333333;
+    cursor: not-allowed;
+}
+
+/* 모바일 화면 대응 */
+@media screen and (max-width: 500px) {
+    #selection {
+        width: calc(100% - 40px);
+    }
+}

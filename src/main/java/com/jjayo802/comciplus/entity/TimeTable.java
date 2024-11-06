@@ -17,6 +17,15 @@ public class TimeTable {
     private Long id;
 
     @Column
+    private String schoolId;
+
+    @Column
+    private int grade;
+
+    @Column
+    private String className;
+
+    @Column
     private String name;
 
     @Column

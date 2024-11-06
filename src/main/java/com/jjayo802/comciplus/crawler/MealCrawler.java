@@ -79,8 +79,8 @@ public class MealCrawler {
             LocalDate today = startDate.plusDays(i);
             String ymd = String.format("%d%02d%02d",today.getYear(),today.getMonthValue(),today.getDayOfMonth());
 
-            Meal mealEntity = new Meal(null,ymd,mealHtml);
-            repository.save(mealEntity);
+            //Meal mealEntity = new Meal(null,ymd,mealHtml);
+            //repository.save(mealEntity);
 
             meals[i] = meal;
         }
